@@ -10,12 +10,12 @@ let gameActive = true;
 
 // Images for X and O
 const images = {
-    X: "/images/ziko_x_o_game.png",
-    O: "/images/amine_x_o_game.png",
+    X: "images/ziko_x_o_game.png",
+    O: "images/amine_x_o_game.png",
 };
 
 // Add an array of audio filenames
-const winSounds = ["/audio/01.m4a", "/audio/02.mp3", "/audio/03.m4a", "/audio/04.m4a", "/audio/05.m4a", "/audio/06.mp3"]; // Add more as needed
+const winSounds = ["audio/01.m4a", "audio/02.mp3", "audio/03.m4a", "audio/04.m4a", "audio/05.m4a", "audio/06.mp3"]; // Add more as needed
 
 function getRandomSound() {
     return winSounds[Math.floor(Math.random() * winSounds.length)];
