@@ -78,10 +78,10 @@ function handleCellClick(event) {
 
     currentPlayer = currentPlayer === "X" ? "O" : "X";
     if (currentPlayer === "X") {
-        img_msg.src = '/images/ziko_x_o_game.png';
+        img_msg.src = 'images/ziko_x_o_game.png';
         // message01.textContent = 'test_1';
     }else{
-        img_msg.src = '/images/amine_x_o_game.png';
+        img_msg.src = 'images/amine_x_o_game.png';
         // message01.textContent = 'test_2';
     }
 }
