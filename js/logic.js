@@ -5,8 +5,18 @@ const resetButton = document.getElementById("reset-button");
 // const message = document.querySelector(".message-container");
 const message02 = document.querySelector(".message02");
 const message01 = document.querySelector(".message01");
+const playerXScoreElement = document.getElementById("score_x");
+const playerOScoreElement = document.getElementById("score_o");
+const resetScoresButton = document.getElementById("reset-scores-button");
+const counterElement = document.getElementById("counter");
+
 let currentPlayer = "X";
 let gameActive = true;
+
+let count = 13;
+
+let playerXScore = 0;
+let playerOScore = 0;
 
 // Images for X and O
 const images = {
@@ -26,6 +36,11 @@ function playRandomWinSound() {
     return audio.play();
 }
 
+function updateScores() {
+    playerXScoreElement.textContent = playerXScore;
+    playerOScoreElement.textContent = playerOScore;
+}
+
 function checkWinner() {
     const winningCombinations = [
         [0, 1, 2], [3, 4, 5], [6, 7, 8],
@@ -42,13 +57,28 @@ function checkWinner() {
             cells[c].classList.add("winner");
             playRandomWinSound(); // Play the win sound
             if(currentPlayer == "X"){
-                message02.textContent = `ziko wins!`;
+                message02.textContent = `زكرياء يربح المباراة`;
             }else{
-                message02.textContent = `amine wins!`;
+                message02.textContent = `امين  يربح المباراة`;
             }
             message01.style.display = "none";
             message02.style.textAlign = "center";
             message02.style.display = "block";
+
+            // Update the score
+            if (currentPlayer === "X") {
+                playerXScore++;
+            } else {
+                playerOScore++;
+            }
+            updateScores();
+            localStorage.setItem("playerXScore", playerXScore);
+            localStorage.setItem("playerOScore", playerOScore);
+
+            updateCounter();
+
+            counterElement.style.opacity = "1";
+
             return;
         }
     }
@@ -100,8 +130,36 @@ function resetGame(e) {
     currentPlayer = "X";
 }
 
+// update time
+function updateCounter() {
+    count--;
+    counterElement.textContent = count;
+    if(count === 0){
+        location.reload();
+    }else{
+        setTimeout(updateCounter, 1000);
+    }
+}
+
+// Function to reset scores
+function resetScores() {
+    playerXScore = 0;
+    playerOScore = 0;
+    updateScores();
+    localStorage.setItem("playerXScore", playerXScore);
+    localStorage.setItem("playerOScore", playerOScore);
+}
+
+resetScoresButton.addEventListener("click", resetScores);
+
+// Retrieve scores from local storage and update
+playerXScore = parseInt(localStorage.getItem("playerXScore")) || 0;
+playerOScore = parseInt(localStorage.getItem("playerOScore")) || 0;
+updateScores();
+
 cells.forEach(cell => cell.addEventListener("click", handleCellClick));
 resetButton.addEventListener("click", resetGame);
+
 // restart
 // resetButton.addEventListener("click",(e)=>{
 //     location.reload();

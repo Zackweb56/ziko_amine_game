@@ -1,20 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ziko amine Game</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="css/style.css">
+    <!-- <link rel="stylesheet" href="css/congrats.scss"> -->
 </head>
 <body>
 
     <!-- <h1>Tic-Tac-Toe</h1> -->
+    
+    <div class="js-container container" style="top:0px !important;"></div>
     <header>
+
+        <div id="score_container">
+            <div class="score" id="playerX-score"> <img src="images/ziko_x_o_game.png" alt="ziko_amine"> <span class="score_xo" id="score_x">0</span></div>
+            <img src="images/vs_img.png" class="vs_img" alt="vs image">
+            <div class="score" id="playerO-score"><img src="images/amine_x_o_game.png" alt="ziko_amine"> <span class="score_xo" id="score_o">0</span></div>
+        </div>
+
         <div class="The_Message">
-            <h3 class="message01">player turn : <span class="x-o"><img src="images/ziko_x_o_game.png" class="ziko_amine" alt="ziko/amine"></span> </h3>
+            <div class="message01"><span class="x-o"><img src="images/ziko_x_o_game.png" class="ziko_amine" alt="ziko/amine"></span> <h3> دور اللاعب</h3></div>
             <h3 class="message02"> </h3>
         </div>
+
         <div id="tic-tac-toe-board">
             <div class="cell" data-cell=""></div>
             <div class="cell" data-cell=""></div>
@@ -28,14 +36,22 @@
             <div class="cell" data-cell=""></div>
             <div class="cell" data-cell=""></div>
         </div>
-        <button id="reset-button">Reset Game</button>
+
+        <span id="counter">13</span>
+        
+        <div class="btns">
+            <button id="reset-button"> اعادة&nbsp;اللعبة</button>
+            <button id="reset-scores-button"> اعادة&nbsp;النتائج</button>
+        </div>
+
     </header>
 
     <footer>
         <p>Copyright &copy; All Rights Reserveed | Developped by <span>ZAKARIA BOUGHABA</span></p>
     </footer>
 
-    <script src="logic.js"></script>
+    <script src="js/logic.js"></script>
+    <!-- <script src="js/congrats.js"></script> -->
     
 </body>
 </html>
