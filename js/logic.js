@@ -1,4 +1,4 @@
-const board = document.getElementById("tic-tac-toe-board");
+// const board = document.getElementById("tic-tac-toe-board");
 const cells = document.querySelectorAll(".cell");
 const img_msg = document.querySelector(".ziko_amine");
 const resetButton = document.getElementById("reset-button");
@@ -6,9 +6,11 @@ const resetButton = document.getElementById("reset-button");
 const message02 = document.querySelector(".message02");
 const message01 = document.querySelector(".message01");
 const playerXScoreElement = document.getElementById("score_x");
-const playerOScoreElement = document.getElementById("score_o");
+const playerOScoreElement  = document.getElementById("score_o");
 const resetScoresButton = document.getElementById("reset-scores-button");
 const counterElement = document.getElementById("counter");
+const info_counter = document.querySelector(".info_counter");
+
 
 let currentPlayer = "X";
 let gameActive = true;
@@ -18,10 +20,13 @@ let count = 13;
 let playerXScore = 0;
 let playerOScore = 0;
 
+const board = ["", "", "", "", "", "", "", "", ""];
+console.log(board)
+
 // Images for X and O
 const images = {
-    X: "images/ziko_x_o_game.png",
-    O: "images/amine_x_o_game.png",
+    X: "images/amine_x_o_game.png",
+    AI: "images/ziko_x_o_game.png",
 };
 
 // Add an array of audio filenames
@@ -50,45 +55,101 @@ function checkWinner() {
 
     for (const combination of winningCombinations) {
         const [a, b, c] = combination;
-        if (cells[a].dataset.cell === currentPlayer && cells[b].dataset.cell === currentPlayer && cells[c].dataset.cell === currentPlayer) {
+        
+        if (cells[a].dataset.cell === "X" && cells[b].dataset.cell === "X" && cells[c].dataset.cell === "X") {
             gameActive = false;
             cells[a].classList.add("winner");
             cells[b].classList.add("winner");
             cells[c].classList.add("winner");
             playRandomWinSound(); // Play the win sound
-            if(currentPlayer == "X"){
-                message02.textContent = `زكرياء يربح المباراة`;
-            }else{
-                message02.textContent = `امين  يربح المباراة`;
-            }
+            message02.textContent = "امين يربح المباراة";
             message01.style.display = "none";
             message02.style.textAlign = "center";
             message02.style.display = "block";
-
-            // Update the score
-            if (currentPlayer === "X") {
-                playerXScore++;
-            } else {
-                playerOScore++;
-            }
+            playerOScore++;
+            updateScores();
+            localStorage.setItem("playerOScore", playerOScore);
+            updateCounter();
+            counterElement.style.display = "block";
+            info_counter.style.display = "block";
+            return;
+        }else if (cells[a].dataset.cell === "AI" && cells[b].dataset.cell === "AI" && cells[c].dataset.cell === "AI") {
+            gameActive = false;
+            cells[a].classList.add("winner");
+            cells[b].classList.add("winner");
+            cells[c].classList.add("winner");
+            playRandomWinSound(); // Play the win sound
+            message02.textContent = "زكرياء يربح المباراة";
+            message01.style.display = "none";
+            message02.style.textAlign = "center";
+            message02.style.display = "block";
+            playerXScore++;
             updateScores();
             localStorage.setItem("playerXScore", playerXScore);
-            localStorage.setItem("playerOScore", playerOScore);
-
             updateCounter();
-
-            counterElement.style.opacity = "1";
-
+            counterElement.style.display = "block";
+            info_counter.style.display = "block";
             return;
         }
     }
 
     if ([...cells].every(cell => cell.dataset.cell)) {
         gameActive = false;
-        message02.textContent = "It's a draw!";
+        message02.textContent = "تعادل للطرفين!";
         message01.style.display = "none";
         message02.style.display = "block";
     }
+}
+
+function makeAIMove() {
+    // Convert the NodeList to an array
+    const cellArray = [...cells];
+    
+    // Create an array of available empty cells
+    const availableCells = cellArray.filter(cell => cell.dataset.cell === "");
+
+    checkWinner();
+
+    // Check if there are available cells
+    if (availableCells.length > 0) {
+        // Shuffle the available cells randomly to add unpredictability
+        const shuffledCells = shuffleArray(availableCells);
+
+        // Choose a random cell from the shuffled list
+        const randomCell = shuffledCells[0];
+
+        // Set the cell as AI's move
+        randomCell.dataset.cell = "AI";
+        const img = new Image();
+        img.src = images.AI;
+        img.style.marginTop = '8px';
+        randomCell.appendChild(img);
+
+        // Update the board with AI's move
+        board[parseInt(randomCell.dataset.index)] = "AI";
+        console.log(parseInt(randomCell.dataset.index));
+
+        checkWinner(); 
+        // console.log(board);
+
+        if(gameActive){
+            img_msg.src = "images/amine_x_o_game.png";
+            currentPlayer = "X";
+        }
+
+    }
+}
+
+// Function to shuffle an array (Fisher-Yates shuffle algorithm)
+function shuffleArray(array) {
+
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    // checkWinner();
+
+    return array;
 }
 
 function handleCellClick(event) {
@@ -106,14 +167,18 @@ function handleCellClick(event) {
 
     checkWinner();
 
-    currentPlayer = currentPlayer === "X" ? "O" : "X";
-    if (currentPlayer === "X") {
-        img_msg.src = 'images/ziko_x_o_game.png';
-        // message01.textContent = 'test_1';
-    }else{
-        img_msg.src = 'images/amine_x_o_game.png';
-        // message01.textContent = 'test_2';
+    if (gameActive) {
+        if (currentPlayer === "X") {
+            img_msg.src = 'images/ziko_x_o_game.png';
+            currentPlayer = "AI"; // Switch to AI's turn
+            setTimeout(makeAIMove, 1000); // Delay AI's move for 1 second
+        } else if (currentPlayer === "AI"){
+            img_msg.src = 'images/amine_x_o_game.png';
+            currentPlayer = "X"; // Switch back to the human player's turn
+        }
+        // message.textContent = `Player ${currentPlayer}'s turn`;
     }
+
 }
 
 function resetGame(e) {
