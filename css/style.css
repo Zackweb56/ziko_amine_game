@@ -16,8 +16,6 @@ body{
     font-family: 'Alexandria', sans-serif;
     font-family: 'Cairo Play', sans-serif;
     font-family: 'Poppins', sans-serif;
-    /* max-width: 100%;
-    height: 100%; */
 }
 
 #tic-tac-toe-board {
@@ -32,7 +30,8 @@ body{
 
 .message01{
     display: flex;
-    justify-content: space-evenly;
+    /* gap: 15px; */
+    justify-content: center;
     align-items: center;
 }
 
@@ -86,14 +85,19 @@ h3{
     object-fit: contain;
 }
 
-#counter, .info_counter{
-    /* background-color: #fff; */
+
+#counter, .info_counter, .info_change_player{
     color: #da0012;
     font-weight: bold;
     font-size: 25px;
     border-radius: 50%;
     display: none;
     text-align: center;
+}
+
+.info_change_player{
+    font-size: 18px;
+    margin-bottom: 12px;
 }
 
 #counter{
@@ -151,10 +155,15 @@ button:hover{
 #score_container, .btns{
     position: relative;
     display: flex;
+    gap: 10px;
     justify-content: space-between;
     align-items: center;
     padding: 15px;
     margin-bottom: 20px;
+}
+
+.btns{
+    padding: 6px;
 }
 
 .vs_img{
@@ -239,4 +248,18 @@ footer p{
 
 footer p span{
     color: #fff;
+}
+
+
+
+
+
+
+
+@media (max-width: 768px) {
+    /* Styles for screens up to 768px wide (common for mobile devices) */
+    body {
+        width: 100%;
+        height: auto;
+    }
 }

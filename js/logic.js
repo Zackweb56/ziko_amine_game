@@ -10,12 +10,17 @@ const playerOScoreElement  = document.getElementById("score_o");
 const resetScoresButton = document.getElementById("reset-scores-button");
 const counterElement = document.getElementById("counter");
 const info_counter = document.querySelector(".info_counter");
-
+const change_player_name = document.getElementById("change_player_name");
+const change_player_btn = document.getElementById("change_player");
+const img_vs_score = document.getElementById("img_vs_score");
+const info_change_player = document.querySelector(".info_change_player");
 
 let currentPlayer = "X";
 let gameActive = true;
 
 let count = 13;
+
+change_player_btn.disabled = false; 
 
 let playerXScore = 0;
 let playerOScore = 0;
@@ -46,6 +51,22 @@ function updateScores() {
     playerOScoreElement.textContent = playerOScore;
 }
 
+function change_player_func() {
+    if (images.X === "images/amine_x_o_game.png") {
+        console.log("amine");
+        images.X = "images/simo_x_o_game.png";
+        change_player_name.textContent = "امين";
+        img_msg.src = "images/simo_x_o_game.png";
+        img_vs_score.src = "images/simo_x_o_game.png";
+    }else{
+        console.log("simo");
+        images.X = "images/amine_x_o_game.png";
+        change_player_name.textContent = "محمد";
+        img_msg.src = "images/amine_x_o_game.png";
+        img_vs_score.src = "images/amine_x_o_game.png";
+    }
+}
+
 function checkWinner() {
     const winningCombinations = [
         [0, 1, 2], [3, 4, 5], [6, 7, 8],
@@ -62,7 +83,7 @@ function checkWinner() {
             cells[b].classList.add("winner");
             cells[c].classList.add("winner");
             playRandomWinSound(); // Play the win sound
-            message02.textContent = "امين يربح المباراة";
+            message02.textContent = "أمين يربح المباراة";
             message01.style.display = "none";
             message02.style.textAlign = "center";
             message02.style.display = "block";
@@ -164,6 +185,18 @@ function handleCellClick(event) {
     img.src = images[currentPlayer];
     img.style.marginTop = '8px';
     cell.appendChild(img);
+
+    const btn_allow_condition = true; // Change to your condition
+
+    if (btn_allow_condition) {
+        change_player_btn.disabled = true;
+        change_player_btn.style.cursor = "not-allowed";
+        change_player_btn.style.opacity = ".6";
+    } else {
+        change_player_btn.disabled = false;
+    }
+
+    info_change_player.style.display = "block";
 
     checkWinner();
 
