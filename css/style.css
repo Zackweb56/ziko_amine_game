@@ -249,17 +249,3 @@ footer p{
 footer p span{
     color: #fff;
 }
-
-
-
-
-
-
-
-@media (max-width: 768px) {
-    /* Styles for screens up to 768px wide (common for mobile devices) */
-    body {
-        width: 100%;
-        height: auto;
-    }
-}

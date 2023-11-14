@@ -55,13 +55,13 @@ function change_player_func() {
     if (images.X === "images/amine_x_o_game.png") {
         console.log("amine");
         images.X = "images/simo_x_o_game.png";
-        change_player_name.textContent = "امين";
+        change_player_name.textContent = "رجل";
         img_msg.src = "images/simo_x_o_game.png";
         img_vs_score.src = "images/simo_x_o_game.png";
     }else{
         console.log("simo");
         images.X = "images/amine_x_o_game.png";
-        change_player_name.textContent = "محمد";
+        change_player_name.textContent = "فتاة";
         img_msg.src = "images/amine_x_o_game.png";
         img_vs_score.src = "images/amine_x_o_game.png";
     }
@@ -154,7 +154,12 @@ function makeAIMove() {
         // console.log(board);
 
         if(gameActive){
-            img_msg.src = "images/amine_x_o_game.png";
+            // img_msg.src = "images/amine_x_o_game.png";
+            if (img_msg.src === "images/amine_x_o_game.png") {
+                img_msg.src = "images/simo_x_o_game.png";
+            }else{
+                img_msg.src = "images/amine_x_o_game.png";
+            }
             currentPlayer = "X";
         }
 
@@ -206,7 +211,6 @@ function handleCellClick(event) {
             currentPlayer = "AI"; // Switch to AI's turn
             setTimeout(makeAIMove, 1000); // Delay AI's move for 1 second
         } else if (currentPlayer === "AI"){
-            img_msg.src = 'images/amine_x_o_game.png';
             currentPlayer = "X"; // Switch back to the human player's turn
         }
         // message.textContent = `Player ${currentPlayer}'s turn`;
